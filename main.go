@@ -8,6 +8,9 @@ import (
   "github.com/golang/glog"
   "github.com/Lunkov/lib-mc"
   "github.com/Lunkov/lib-mc-rf/wasteout"
+  "github.com/Lunkov/lib-mc-world/open-weather-map"
+  "github.com/Lunkov/lib-mc-world/vaisala"
+  "github.com/Lunkov/lib-mc-world/yandex-weather"
 )
 
 var service_port = ":3000"
@@ -32,6 +35,9 @@ func main() {
   flag.Parse()
   
   mc.WorkerRegister(wasteout.NewWorker())
+  mc.WorkerRegister(owm.NewWorker())
+  mc.WorkerRegister(vaisala.NewWorker())
+  mc.WorkerRegister(yandex.NewWorker())
   
   go mc.Init("./etc/")
   defer mc.Close()
