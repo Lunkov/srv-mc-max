@@ -32,11 +32,8 @@ RUN pwd
 RUN ls -l /home/
 RUN ls -l /root/
 
-RUN set
-
 RUN mkdir /app && mkdir /app/templates && mkdir /app/etc
 ADD *.go /app/
-# ADD go.* /app/
 WORKDIR /app/
 RUN cd /app
 
@@ -49,8 +46,6 @@ RUN go version
 RUN go build -a -v -ldflags '-w -extldflags "-static"' -o ./web-service ./...
 
 RUN ls -l /go/src/
-
-RUN rm -rf /root/.ssh/
 
 #########
 # second stage to obtain a very small image
@@ -80,8 +75,6 @@ RUN apk update && \
     rm -rf /var/lib/apt/lists/*
 
 ADD ./docker/nsswitch.conf /etc/nsswitch.conf
-#ADD ./fonts       /app/fonts
-#ADD ./web-service /app/web-service
 
 RUN addgroup --gid 1000 $MY_GROUP \
     && adduser -D -G $MY_GROUP -u 1000 $MY_USER \
